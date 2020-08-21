@@ -6,18 +6,19 @@
 
 #Parameters to be set by the user:
 
-python_caffe_root='/export/home/sguist/caffe/python'
-fcn_root='/export/home/sguist/fcn/fcn.berkeleyvision.org-master/'				#path containing cityscapes_layers.py and surgery.py
-weights = '/export/home/sguist/caffe/models/vgg_16/VGG_ILSVRC_16_layers_conv.caffemodel'	#weights for initialization: VGG 16-layer net
-n_steps=50000		#number of training iteration (one iteration = one random image from the training set)
-final_model_name='cityscapes-fcn32s-2x.caffemodel'
+caffe_root = '/home/pedram/caffe/'  # this file should be run from {caffe_root}/examples (otherwise change this line)
+import sys
+sys.path.insert(0, caffe_root + 'python')
+fcn_root='/home/pedram/PycharmProjects/FCN-Cityscapes/train/'
+sys.path.insert(0, fcn_root)      # path containing cityscapes_layers.py and surgery.py
+# weights = '/export/home/sguist/caffe/models/vgg_16/VGG_ILSVRC_16_layers_conv.caffemodel'	#weights for initialization: VGG 16-layer net
+n_steps=50000		# number of training iteration (one iteration = one random image from the training set)
+final_model_name='customlayer-fcn32s-2x.caffemodel'
 
 #---------------------------------------------------------
 
 
 import sys
-
-sys.path.insert(0, python_caffe_root)
 sys.path.insert(0, fcn_root)
 
 import caffe
@@ -33,8 +34,8 @@ caffe.set_device(0)
 
 # initialize with VGG net
 solver = caffe.SGDSolver('solver.prototxt')
-solver.net.copy_from(weights)
-
+# solver.net.copy_from(weights)
+"""
 # surgeries
 interp_layers = [k for k in solver.net.params.keys() if 'up' in k]
 surgery.interp(solver.net, interp_layers)
@@ -43,3 +44,4 @@ surgery.interp(solver.net, interp_layers)
 solver.step(n_steps)
 
 solver.net.save(final_model_name)
+"""

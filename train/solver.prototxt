@@ -5,8 +5,8 @@
 #---------------------------------------------------------
 
 
-train_net: "train.prototxt"
-test_net: "val.prototxt"
+train_net: "/home/pedram/PycharmProjects/FCN-Cityscapes/train/make_net/train.prototxt"
+test_net: "/home/pedram/PycharmProjects/FCN-Cityscapes/train/make_net/val.prototxt"
 test_iter: 736
 # make test net, but don't invoke it from the solver itself
 test_interval: 999999999
@@ -23,5 +23,5 @@ iter_size: 1
 max_iter: 100000
 weight_decay: 0.0005
 snapshot: 5000
-snapshot_prefix: "snapshot/train"
+snapshot_prefix: "/home/pedram/PycharmProjects/FCN-Cityscapes/"
 test_initialization: false
