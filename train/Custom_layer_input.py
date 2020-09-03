@@ -98,7 +98,7 @@ class CityscapesSegDataLayer(caffe.Layer):
         - transpose to channel x height x width order
         """
         im = Image.open(idx[1])
-        im = im.resize((round(im.size[0] / 8), round(im.size[1] / 8)))
+        im = im.resize((int(round(im.size[0] / 8)), int(round(im.size[1] / 8))))
         in_ = np.array(im, dtype=np.float32)
         in_ = in_[:, :, ::-1]
         in_ -= self.mean
