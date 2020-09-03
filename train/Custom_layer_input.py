@@ -61,11 +61,11 @@ class CityscapesSegDataLayer(caffe.Layer):
             raise Exception("Do not define a bottom.")
 
         # load indices for images and labels
-        with open(self.csv_dir, newline='') as f:
+        with open(self.csv_dir) as f:
             reader = csv.reader(f)
             self.csv_file = list(reader)
 
-        self.idx = 0
+        self.idx = 1
 
 
     def reshape(self, bottom, top):
@@ -97,7 +97,7 @@ class CityscapesSegDataLayer(caffe.Layer):
         - subtract mean
         - transpose to channel x height x width order
         """
-        im = Image.open(idx[0])
+        im = Image.open(idx[1])
         im = im.resize((round(im.size[0] / 8), round(im.size[1] / 8)))
         in_ = np.array(im, dtype=np.float32)
         in_ = in_[:, :, ::-1]
@@ -110,8 +110,8 @@ class CityscapesSegDataLayer(caffe.Layer):
         Load label image as 1 x height x width integer array of label indices.
         The leading singleton dimension is required by the loss.
         """
-        im = Image.open(idx[1])
-        im = im.resize((round(im.size[0] / 8), round(im.size[1] / 8)))
+        im = Image.open(idx[2])
+        im = im.resize((int(round(im.size[0] / 8)), int(round(im.size[1] / 8))))
         label = np.array(im, dtype=np.uint8)
         label = label[np.newaxis, ...]
         return label
