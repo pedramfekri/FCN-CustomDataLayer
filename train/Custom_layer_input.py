@@ -66,6 +66,7 @@ class CityscapesSegDataLayer(caffe.Layer):
             self.csv_file = list(reader)
 
         self.idx = 1
+        self.dataset_len = len(self.csv_file)
 
 
     def reshape(self, bottom, top):
@@ -83,7 +84,7 @@ class CityscapesSegDataLayer(caffe.Layer):
 
         # pick next input
         self.idx += 1
-        if self.idx == len(self.indices):
+        if self.idx == self.dataset_len:
             self.idx = 0
 
     def backward(self, top, propagate_down, bottom):
