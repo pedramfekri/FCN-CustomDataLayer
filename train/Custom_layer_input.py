@@ -98,7 +98,7 @@ class CityscapesSegDataLayer(caffe.Layer):
         - subtract mean
         - transpose to channel x height x width order
         """
-        im = Image.open(idx[1])
+        im = Image.open(idx)
         im = im.resize((int(round(im.size[0] / 8)), int(round(im.size[1] / 8))))
         in_ = np.array(im, dtype=np.float32)
         in_ = in_[:, :, ::-1]
@@ -111,7 +111,7 @@ class CityscapesSegDataLayer(caffe.Layer):
         Load label image as 1 x height x width integer array of label indices.
         The leading singleton dimension is required by the loss.
         """
-        im = Image.open(idx[2])
+        im = Image.open(idx)
         im = im.resize((int(round(im.size[0] / 8)), int(round(im.size[1] / 8))))
         label = np.array(im, dtype=np.uint8)
         label = label[np.newaxis, ...]
