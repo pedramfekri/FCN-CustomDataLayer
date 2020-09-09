@@ -85,7 +85,7 @@ class CityscapesSegDataLayer(caffe.Layer):
         # pick next input
         self.idx += 1
         if self.idx == self.dataset_len:
-            self.idx = 0
+            self.idx = 1
 
     def backward(self, top, propagate_down, bottom):
         pass
