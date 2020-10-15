@@ -20,7 +20,7 @@ with open(csv_dir) as f:
 
 
 
-n = 100
+n = 32
 addr = csv_file[n][1]
 im = Image.open(addr)
 im = im.resize((int(round(im.size[0] / 8)), int(round(im.size[1] / 8))))
@@ -49,9 +49,15 @@ net = caffe.Net(model_def,      # defines the structure of the model
                model_weights,  # contains the trained weights
                0)
 net.blobs['data'].data[...] = in_
+blob = net.blobs['upscore8'].data[...]
+print(type(blob))
+print(blob.shape)
 # out =  net.forward_all(**{"data": in_})
+"""
 output = net.forward()
-output_prob = output['prob'][0]
+
+print(type(blob))
+output_prob = output['score'][0]
 # for key in out:
 #      print(key)
 
@@ -106,10 +112,11 @@ for i in range(im.shape[0]):
     for j in range(im.shape[1]):
         im[i, j, :] = color[np.argmax(out[:, i, j])]
         # print(out[:, i, j])
+        print("next")
         # im[i, j, :] = color[label[0,i, j]]
         # print(i, "   ",j)
 
 im = im / 255
 plt.imshow(im)
 plt.show()
-
+"""

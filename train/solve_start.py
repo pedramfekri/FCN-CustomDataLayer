@@ -39,9 +39,7 @@ solver = caffe.SGDSolver('solver.prototxt')
 # surgeries
 interp_layers = [k for k in solver.net.params.keys() if 'up' in k]
 surgery.interp(solver.net, interp_layers)
-
 #train
 solver.step(n_steps)
-
 solver.net.save(final_model_name)
 """

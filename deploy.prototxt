@@ -622,9 +622,3 @@ layer {
     offset: 31
   }
 }
-layer {
-  name: "prob"
-  type: "Softmax"
-  bottom: "score"
-  top: "prob"
-}

@@ -4,6 +4,9 @@
 
 #---------------------------------------------------------
 
+
+import sys
+
 caffe_root = '/home/pedram/caffe/'  # this file should be run from {caffe_root}/examples (otherwise change this line)
 import sys
 sys.path.insert(0, caffe_root + 'python')
@@ -67,32 +70,11 @@ def fcn(split):
     n.drop7 = L.Dropout(n.relu7, dropout_ratio=0.5, in_place=True)
     n.score_fr = L.Convolution(n.drop7, num_output=33, kernel_size=1, pad=0,
         param=[dict(lr_mult=1, decay_mult=1), dict(lr_mult=2, decay_mult=0)])
-    n.upscore2 = L.Deconvolution(n.score_fr,
-        convolution_param=dict(num_output=33, kernel_size=4, stride=2,
+    n.upscore = L.Deconvolution(n.score_fr,
+        convolution_param=dict(num_output=33, kernel_size=64, stride=32,
             bias_term=False),
         param=[dict(lr_mult=0)])
-
-    n.score_pool4 = L.Convolution(n.pool4, num_output=33, kernel_size=1, pad=0,
-        param=[dict(lr_mult=1, decay_mult=1), dict(lr_mult=2, decay_mult=0)])
-    n.score_pool4c = crop(n.score_pool4, n.upscore2)
-    n.fuse_pool4 = L.Eltwise(n.upscore2, n.score_pool4c,
-            operation=P.Eltwise.SUM)
-    n.upscore_pool4 = L.Deconvolution(n.fuse_pool4,
-        convolution_param=dict(num_output=33, kernel_size=4, stride=2,
-            bias_term=False),
-        param=[dict(lr_mult=0)])
-
-    n.score_pool3 = L.Convolution(n.pool3, num_output=33, kernel_size=1, pad=0,
-        param=[dict(lr_mult=1, decay_mult=1), dict(lr_mult=2, decay_mult=0)])
-    n.score_pool3c = crop(n.score_pool3, n.upscore_pool4)
-    n.fuse_pool3 = L.Eltwise(n.upscore_pool4, n.score_pool3c,
-            operation=P.Eltwise.SUM)
-    n.upscore8 = L.Deconvolution(n.fuse_pool3,
-        convolution_param=dict(num_output=33, kernel_size=16, stride=8,
-            bias_term=False),
-        param=[dict(lr_mult=0)])
-
-    n.score = crop(n.upscore8, n.data)
+    n.score = crop(n.upscore, n.data)
     n.loss = L.SoftmaxWithLoss(n.score, n.label,
             loss_param=dict(normalize=False, ignore_label=255))
     # n.accuracy = L.Accuracy(n.score, n.label, loss_param=dict(normalize=False, ignore_label=255))
