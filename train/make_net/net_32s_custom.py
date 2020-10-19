@@ -68,14 +68,14 @@ def fcn(split):
     n.drop6 = L.Dropout(n.relu6, dropout_ratio=0.5, in_place=True)
     n.fc7, n.relu7 = conv_relu(n.drop6, 4096, ks=1, pad=0)
     n.drop7 = L.Dropout(n.relu7, dropout_ratio=0.5, in_place=True)
-    n.score_fr = L.Convolution(n.drop7, num_output=33, kernel_size=1, pad=0,
+    n.score_fr_c = L.Convolution(n.drop7, num_output=33, kernel_size=1, pad=0,
         param=[dict(lr_mult=1, decay_mult=1), dict(lr_mult=2, decay_mult=0)])
-    n.upscore = L.Deconvolution(n.score_fr,
+    n.upscore_c = L.Deconvolution(n.score_fr_c,
         convolution_param=dict(num_output=33, kernel_size=64, stride=32,
             bias_term=False),
         param=[dict(lr_mult=0)])
-    n.score = crop(n.upscore, n.data)
-    n.loss = L.SoftmaxWithLoss(n.score, n.label,
+    n.score_c = crop(n.upscore_c, n.data)
+    n.loss_c = L.SoftmaxWithLoss(n.score_c, n.label,
             loss_param=dict(normalize=False, ignore_label=255))
     # n.accuracy = L.Accuracy(n.score, n.label, loss_param=dict(normalize=False, ignore_label=255))
 
