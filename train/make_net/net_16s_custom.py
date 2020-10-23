@@ -25,7 +25,7 @@ def max_pool(bottom, ks=2, stride=2):
 
 def fcn(split):
     n = caffe.NetSpec()
-    pydata_params = dict(split=split, mean=(57.36020546, 67.49781387, 57.11905772),
+    pydata_params = dict(split=split, mean=(57.3863878,  67.52557574, 57.14329011),
                          seed=1337)
     pydata_params['height'] = None
     pydata_params['width'] = None
