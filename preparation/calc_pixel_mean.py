@@ -15,7 +15,7 @@ mean_sum=np.zeros(3)
 for root, dirs, files in os.walk(dataset_path):
     for name in files:
        if ('leftImg8bit.png') and ('resized_2' in name) and (not '_cut_' in name):	#modify this line to control which images are found
-           img=Image.open(root + '/' + name)ss
+           img=Image.open(root + '/' + name)
            in_ = np.array(img, dtype=np.float32)
            in_ = in_[:,:,::-1]
            mean_sum += in_.mean((0,1))

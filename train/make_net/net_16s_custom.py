@@ -25,16 +25,18 @@ def max_pool(bottom, ks=2, stride=2):
 
 def fcn(split):
     n = caffe.NetSpec()
-    pydata_params = dict(split=split, mean=(71.60167789, 82.09696889, 72.30608881),
-            seed=1337)
+    pydata_params = dict(split=split, mean=(57.36020546, 67.49781387, 57.11905772),
+                         seed=1337)
+    pydata_params['height'] = None
+    pydata_params['width'] = None
     if split == 'train':
-        pydata_params['cityscapes_dir'] = '/export/home/sguist/fcn/fcn.berkeleyvision.org-master/data/cityscapes'
+        pydata_params['csv_dir'] = '/home/pedram/PycharmProjects/FCN-Cityscapes/dataset.csv'
         pylayer = 'CityscapesSegDataLayer'
     else:
-        pydata_params['cityscapes_dir'] = '/export/home/sguist/fcn/fcn.berkeleyvision.org-master/data/cityscapes'
+        pydata_params['csv_dir'] = '/home/pedram/PycharmProjects/FCN-Cityscapes/dataset.csv'
         pylayer = 'CityscapesSegDataLayer'
-    n.data, n.label = L.Python(module='cityscapes_layers', layer=pylayer,
-            ntop=2, param_str=str(pydata_params))
+    n.data, n.label = L.Python(module='Custom_layer_input', layer=pylayer,
+                               ntop=2, param_str=str(pydata_params))
 
     # the base net
     n.conv1_1, n.relu1_1 = conv_relu(n.data, 64, pad=100)
