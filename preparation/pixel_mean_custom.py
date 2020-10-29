@@ -25,6 +25,7 @@ for idx in range(1, len(csv_file)-1):
     im = Image.open(name)
     im = im.resize((int(round(im.size[0] / 3)), int(round(im.size[1] /3))))
     in_ = np.array(im, dtype=np.float32)
+
     print(in_.shape)
     in_ = in_[:,:,::-1]
     mean_sum += in_.mean((0,1))

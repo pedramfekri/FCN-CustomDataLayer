@@ -14,7 +14,7 @@ idx = 1
 c = 0
 a = np.zeros((len(csv_file)))
 print("max = ", a.shape)
-for i in range(1):
+for i in range(100):
     r = csv_file[idx]
     im = Image.open(r[2])
     im = im.resize((int(round(im.size[0] / 1)), int(round(im.size[1] / 1))))
